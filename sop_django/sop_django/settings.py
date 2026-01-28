@@ -70,7 +70,7 @@ DATABASES = {
         'NAME': 'django_rest_api',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '3306',
         'CONN_MAX_AGE': 0,
     }
