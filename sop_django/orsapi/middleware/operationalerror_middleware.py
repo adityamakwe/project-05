@@ -26,7 +26,7 @@ class DatabaseDownMiddleware:
                             "message": "Database service is currently unavailable. Please try again later."
                         }
                     },
-                    status=200
+                    # status=200
                 )
 
         return self.get_response(request)
