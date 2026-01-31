@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HttpServiceService } from '../http-service.service';
 
 @Component({
@@ -18,7 +19,17 @@ export class LoginComponent {
     inputerror: {},
   };
 
-  constructor(private httpService: HttpServiceService, private router: Router) {
+  constructor(private httpService: HttpServiceService, private router: Router,  private route: ActivatedRoute) {
+  }
+  
+  ngOnInit() 
+  {
+  this.route.queryParams.subscribe(params => {
+    if (params['errorMessage']) {
+      this.form.error = true;
+      this.form.message = params['errorMessage'];
+    }
+  });
   }
 
   signIn() {
