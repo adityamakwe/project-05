@@ -9,7 +9,7 @@ class JWTMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # Skip token validation for certain URLs if needed
+
         if request.path_info in ['/orsapi/Login/auth/', '/orsapi/ForgetPassword/submit/', '/orsapi/Registration/signup/']:
             return self.get_response(request)
 
