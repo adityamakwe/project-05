@@ -8,7 +8,7 @@ import { HttpServiceService } from '../http-service.service';
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
 
   endpoint = "http://localhost:8000/orsapi/Login/auth/";
 
