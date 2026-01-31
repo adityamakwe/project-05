@@ -29,6 +29,7 @@ export class LoginComponent {
       this.form.error = true;
       this.form.message = params['errorMessage'];
     }
+    console.log('MMMMMMMMMMMM',this.form.message)
   });
   }
 
