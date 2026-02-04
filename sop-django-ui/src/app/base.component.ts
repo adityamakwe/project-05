@@ -81,43 +81,14 @@ export class BaseCtl implements OnInit {
         });
     }
 
-    // submit() {
-    //     var _self = this;
-    //     this.serviceLocator.httpService.post(this.api.save, this.form.data, function (res: any) {
-    //         _self.form.message = '';
-    //         _self.form.inputerror = {};
-    //         if (res.success) {
-    //             _self.form.message = res.result.message;
-    //             _self.form.data.id = res.result.data;
-    //         } else {
-    //             _self.form.error = true;
-    //             if (res.result.inputerror) {
-    //                 _self.form.inputerror = res.result.inputerror;
-    //             }
-    //             _self.form.message = res.result.message;
-    //         }
-    //     });
-    // }
-
     submit() {
         var _self = this;
-
-        // 🔥 Force numeric id before sending to backend
-        if (!_self.form.data.id || isNaN(_self.form.data.id)) {
-            _self.form.data.id = 0;
-        }
-
         this.serviceLocator.httpService.post(this.api.save, this.form.data, function (res: any) {
             _self.form.message = '';
             _self.form.inputerror = {};
-
             if (res.success) {
-                _self.form.error = false;
                 _self.form.message = res.result.message;
-
-                if (res.id) {                 // Django sends id
-                    _self.form.data.id = res.id;
-                }
+                _self.form.data.id = res.result.data;
             } else {
                 _self.form.error = true;
                 if (res.result.inputerror) {
@@ -127,7 +98,6 @@ export class BaseCtl implements OnInit {
             }
         });
     }
-
 
     search() {
         var _self = this;
