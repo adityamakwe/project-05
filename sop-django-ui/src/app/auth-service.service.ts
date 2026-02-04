@@ -32,7 +32,7 @@ export class AuthServiceService implements HttpInterceptor {
           localStorage.clear();
           console.log("error = > ", error.error.error)
           this.router.navigate(['/login'], {
-            queryParams: { errorMessage: error.error.error },
+            state: { errorMessage: error.error.error },
           });
         }
         return throwError(error);

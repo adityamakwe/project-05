@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HttpServiceService } from '../http-service.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
 
   endpoint = "http://localhost:8000/orsapi/Login/auth/";
 
@@ -18,7 +19,18 @@ export class LoginComponent {
     inputerror: {},
   };
 
-  constructor(private httpService: HttpServiceService, private router: Router) {
+  constructor(private httpService: HttpServiceService, private router: Router,  private route: ActivatedRoute) {
+  }
+  
+  ngOnInit() 
+  {
+  this.route.queryParams.subscribe(params => {
+    if (params['errorMessage']) {
+      this.form.error = true;
+      this.form.message = params['errorMessage'];
+    }
+    console.log('MMMMMMMMMMMM',this.form.message)
+  });
   }
 
   signIn() {
