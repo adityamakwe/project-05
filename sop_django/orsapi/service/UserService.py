@@ -1,7 +1,11 @@
 from ..models import User
 from ..utility.DataValidator import DataValidator
 from .BaseService import BaseService
-from django.db import connection
+from django.db import connection, OperationalError
+from ..utility.Exceptions import DatabaseUnavailable
+
+
+# from ..utility.MyUtility import CustomHandle
 
 
 class UserService(BaseService):
@@ -9,27 +13,31 @@ class UserService(BaseService):
     def authenticate(self, params):
         loginId = params.get("loginId", None)
         password = params.get("password", None)
+        try:
+            q = self.get_model().objects.filter()
+            if (DataValidator.isNotNull(loginId)):
+                q = q.filter(loginId=loginId)
 
-        q = self.get_model().objects.filter()
+            if (DataValidator.isNotNull(password)):
+                q = q.filter(password=password)
 
-        if (DataValidator.isNotNull(loginId)):
-            q = q.filter(loginId=loginId)
-
-        if (DataValidator.isNotNull(password)):
-            q = q.filter(password=password)
-
-        if (q.count() == 1):
-            return q[0]
-        else:
-            return None
+            # if (q.count() == 1):
+            #     return q[0]
+            user = q.first()  # hits DB immediately
+            if user:
+                return user
+            else:
+                return None
+        except OperationalError:
+            raise DatabaseUnavailable("DB is down")
 
     def search(self, params):
         pageNo = ((params["pageNo"]) * self.pageSize)
         sql = "select * from sos_user where 1=1"
         val = params.get("firstName", None)
-        val2 = params.get("loginId",None)
+        val2 = params.get("loginId", None)
         val3 = params.get("roleId", None)
-        print('=================',val3)
+        print('=================', val3)
         if DataValidator.isNotNull(val):
             sql += " and firstName like '" + val + "%%'"
         if DataValidator.isNotNull(val2):

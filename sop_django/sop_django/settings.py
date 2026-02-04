@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'orsapi',
     'corsheaders',
 ]
@@ -28,7 +29,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
 
     'corsheaders.middleware.CorsMiddleware',
-    'orsapi.middleware.operationalerror_middleware.DatabaseDownMiddleware',
+    'orsapi.middleware.db_exception_middleware.DBExceptionMiddleware',
+    # 'orsapi.middleware.operationalerror_middleware.DatabaseDownMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -62,6 +64,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'sop_django.wsgi.application'
+
+# =====================================================
+# ✅ DRF GLOBAL EXCEPTION HANDLER
+# =====================================================
+
+# REST_FRAMEWORK = {
+#     'EXCEPTION_HANDLER': 'utility.exception_handler.custom_exception_handler'
+# }
+
 
 # # ✅ DATABASE
 DATABASES = {
