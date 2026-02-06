@@ -157,5 +157,17 @@ class CollegeCtl(BaseCtl):
             res["result"]["message"] = "Data was not deleted"
         return JsonResponse(res)
 
+
+    def preload(self, request, params={}):
+        res = {"result": {}, "success": True}
+        college_list = CollegeService().preload()
+        preloadList = []
+        for x in college_list:
+            preloadList.append(x.to_json())
+        res["result"]["courseList"] = preloadList
+        return JsonResponse(res)
+
+    
+
     def get_service(self):
         return CollegeService()
