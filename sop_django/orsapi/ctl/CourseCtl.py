@@ -135,5 +135,15 @@ class CourseCtl(BaseCtl):
             res["result"]["message"] = "Data was not deleted"
         return JsonResponse(res)
 
+
+    def preload(self, request, params={}):
+        res = {"result": {}, "success": True}
+        course_list = CourseService().preload()
+        preloadList = []
+        for x in course_list:
+            preloadList.append(x.to_json())
+        res["result"]["courseList"] = preloadList
+        return JsonResponse(res)
+
     def get_service(self):
         return CourseService()
